@@ -1,0 +1,4 @@
+node_modules/
+Dockerfile
+doker-compose-dev.yml
+docker-compose.yml

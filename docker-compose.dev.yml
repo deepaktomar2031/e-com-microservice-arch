@@ -8,14 +8,29 @@ services:
       - '3001:3001'
     command: 'npm run start:dev'
     environment:
-        NODE_ENV: development
-        PORT: 3001
-        DATABASE_URL: mongodb://mongo:27018/signupdb
-        RABBITMQ_URL: amqp://rabbitmq
+      PORT: 3001
+      DATABASE_URL: mongodb://mongo:27018/userdb
+      RABBITMQ_URL: amqp://rabbitmq
     depends_on:
       - mongo
       - rabbitmq
-  
+
+  login-service:
+    build: ./login-service
+    container_name: login-service
+    ports:
+      - '3002:3002'
+    command: 'npm run start:dev'
+    environment:
+      PORT: 3002
+      EXPIRATION_TIME: 25m
+      SECRET_KEY: secret
+      DATABASE_URL: mongodb://mongo:27018/userdb
+      RABBITMQ_URL: amqp://rabbitmq
+    depends_on:
+      - mongo
+      - rabbitmq
+
   mongo:
     image: mongo:latest
     container_name: mongo

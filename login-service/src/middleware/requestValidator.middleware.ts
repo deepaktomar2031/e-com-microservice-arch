@@ -3,7 +3,7 @@ import { RequestValidator } from '@src/validator'
 import { ExtendedError } from '@src/utils'
 import { APPLICATION_ERRORS } from '@src/constants'
 
-export const requestValidatorMiddleware = (req: Request, res: Response, next: Function) => {
+export const requestValidator = (req: Request, res: Response, next: Function) => {
   try {
     const { error } = RequestValidator.body.validate(req.body)
     if (error)
