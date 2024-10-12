@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  signup-service:
+    build: ./signup-service
+    container_name: signup-service
+    ports:
+      - '3001:3001'
+    command: 'npm run start:prod'
+    environment:
+        NODE_ENV: production
+        DATABASE_URL: mongodb://mongo:27018/signupdb
+        RABBITMQ_URL: amqp://rabbitmq
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    command: mongod --port 27018
+    ports:
+      - '27018:27018'
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+volumes:
+  mongo_data:
