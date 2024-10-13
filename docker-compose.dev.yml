@@ -31,6 +31,21 @@ services:
       - mongo
       - rabbitmq
 
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - '3003:3003'
+    command: 'npm run start:dev'
+    environment:
+      PORT: 3003
+      SECRET_KEY: secret
+      DATABASE_URL: mongodb://mongo:27018/orderdb
+      RABBITMQ_URL: amqp://rabbitmq
+    depends_on:
+      - mongo
+      - rabbitmq
+
   mongo:
     image: mongo:latest
     container_name: mongo
